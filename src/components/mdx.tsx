@@ -48,7 +48,9 @@ const components = {
     ol: (props: any) => (
         <ol className="list-decimal space-y-3 pl-10" {...props} />
     ),
-    strong: (props: any) => <strong className="font-semibold" {...props} />,
+    strong: (props: any) => (
+        <strong className="font-semibold text-orange-500" {...props} />
+    ),
     blockquote: (props: any) => (
         <blockquote
             className="border-l-2 border-orange-500/30 pl-4 text-xl italic xl:!col-start-2 xl:!col-end-3"
@@ -91,9 +93,7 @@ const components = {
     code: (props: any) => (
         <code className="px-1 rounded-md bg-gray-200 py-[1px]" {...props} />
     ),
-    pre: (props: any) => (
-        <pre className="border text-black bg-gray-100" {...props} />
-    ),
+    pre: (props: any) => <pre className="bg-transparent " {...props} />,
 };
 
 const Mdx = ({ code }: MdxProps) => {

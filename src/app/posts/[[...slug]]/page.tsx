@@ -1,4 +1,6 @@
+import { DashboardTableOfContents } from "@/components/dash-board-toc";
 import Mdx from "@/components/mdx";
+import { getTableOfContents } from "@/components/toc";
 import { allPosts } from "contentlayer/generated";
 import { notFound } from "next/navigation";
 
@@ -18,14 +20,28 @@ const getPostFromParams = async ({ params }: PostPageProps) => {
 const PostPage = async ({ params }: PostPageProps) => {
     const post = await getPostFromParams({ params });
     if (!post) return notFound();
+    const toc = await getTableOfContents(post.body.raw);
 
     return (
-        <div className="bg-white min-h-screen w-screen">
-            <div className="text-black prose md:mt-8 lg:pl-24">
-                <h1 className="text-2xl font-medium text-orange-500 sm:text-3xl">
-                    {post.title}
-                </h1>
-                <Mdx code={post.body.code} />
+        <div className="min-h-screen">
+            <div className="grid grid-cols-[1fr_300px]">
+                <div className="text-white prose md:mt-8 prose-code:text-orange-500 prose-code:before:text-[0px] prose-code:after:text-[0px] prose-code:bg-zinc-800 prose-code:rounded-full prose-code:px-2 ">
+                    <h1 className="text-2xl font-medium text-orange-500 sm:text-3xl">
+                        {post.title}
+                    </h1>
+                    <Mdx code={post.body.code} />
+                </div>
+                {toc && (
+                    <div className="hidden text-sm xl:block">
+                        <div className="sticky top-2">
+                            <div className="pb-10">
+                                <div className="sticky">
+                                    <DashboardTableOfContents toc={toc} />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     );
